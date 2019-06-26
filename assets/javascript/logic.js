@@ -44,5 +44,13 @@ var firebaseConfig = {
   });
 
   database.ref().on("child_added", function(snapshot) {
+      console.log(childSnapshot.val());
+
+      //store into variables
+      var trainName = childSnapshot.val().name;
+      var trainDest = childSnapshot.val().destination;
+      var trainFirst = childSnapshot.val().start;
+      var trainFrequency = childSnapshot.val().freq;
+
       
   })
