@@ -43,14 +43,52 @@ var firebaseConfig = {
       $("#frequency-input").val("");
   });
 
-  database.ref().on("child_added", function(snapshot) {
+  database.ref().on("child_added", function(childSnapshot) {
       console.log(childSnapshot.val());
 
       //store into variables
       var trainName = childSnapshot.val().name;
+      console.log(trainName);
       var trainDest = childSnapshot.val().destination;
+      console.log(trainDest);
       var trainFirst = childSnapshot.val().start;
+      console.log(trainFirst);
       var trainFrequency = childSnapshot.val().freq;
+      console.log(trainFrequency);
 
-      
-  })
+      //converting the military time to standard time
+      var firstTrainConvert = moment(trainFirst, "HH:mm").format('hh:mm a');
+      console.log(firstTrainConvert);
+
+      //current time
+      var currentTime = moment();
+      console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
+      //difference between the times
+      var diffTime = moment().subtract(moment(firstTrainConvert), "minutes");
+      console.log("TYPE OF DiffTime: ", typeof diffTime)
+    console.log("DIFFERENCE IN TIME: " + diffTime);
+
+    //time apart (remainder)
+    var tRemainder = diffTime % trainFrequency;
+    console.log(tRemainder);
+
+    // minutes until train
+    var tMinutesTillTrain = trainFrequency - tRemainder;
+    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+    //next train
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    trainArrival =  moment(nextTrain).format("hh:mm")
+        console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+      var newRow =$("<tr>").append(
+        $("<td>").text(trainName),
+        $("<td>").text(trainDest),
+        $("<td>").text(trainFrequency),
+        $("<td>").text(trainArrival),
+        $("<td>").text(tMinutesTillTrain)
+      );
+      $("#train-schedule > tbody").append(newRow)
+  });
+ 
