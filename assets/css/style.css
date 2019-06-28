@@ -1,0 +1,12 @@
+.jumbotron-fluid{
+    background-color: brown;
+    color:white;
+    text-align: center;
+}
+
+#train-schedule{
+    text-align: center;
+}
+.card-header {
+    text-align: center;
+}
